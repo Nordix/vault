@@ -532,6 +532,14 @@ func (b *backend) pathRoleRead(ctx context.Context, req *logical.Request, data *
 	resp := &logical.Response{
 		Data: role.ToResponseData(),
 	}
+
+	// Note: This is temporary fix which is corrected in later versions.
+	// Do not return signature_bits if it is zero.
+	// This allows using the output of "Read Role" as input for "Create Role" request, which does not allow 0.
+	if resp.Data["signature_bits"] == 0 {
+		delete(resp.Data, "signature_bits")
+	}
+
 	return resp, nil
 }
 
