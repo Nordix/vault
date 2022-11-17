@@ -14,6 +14,9 @@ replace github.com/hashicorp/vault/sdk => ./sdk
 
 replace go.etcd.io/etcd/client/pkg/v3 v3.5.0 => go.etcd.io/etcd/client/pkg/v3 v3.0.0-20210928084031-3df272774672
 
+// Downgrade dependency to avoid bug in CA certificate loading
+replace github.com/hashicorp/vault-plugin-auth-kubernetes => github.com/hashicorp/vault-plugin-auth-kubernetes v0.12.0
+
 require (
 	cloud.google.com/go v0.65.0
 	cloud.google.com/go/spanner v1.5.1
@@ -233,6 +236,7 @@ require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bgentry/speakeasy v0.1.0 // indirect
 	github.com/boombuler/barcode v1.0.1-0.20190219062509-6c824513bacc // indirect
+	github.com/briankassouf/jose v0.9.2-0.20180619214549-d2569464773f // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
 	github.com/cenkalti/backoff/v4 v4.1.1 // indirect
 	github.com/centrify/cloud-golang-sdk v0.0.0-20210923165758-a8c48d049166 // indirect
