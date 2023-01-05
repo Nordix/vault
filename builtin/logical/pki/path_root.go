@@ -128,16 +128,21 @@ func (b *backend) pathCADeleteRoot(ctx context.Context, req *logical.Request, _ 
 }
 
 func (b *backend) pathCAGenerateRoot(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
+	var err error
+
+	if b.UseLegacyBundleCaStorage() {
+		// Try to do migration
+		b.Logger().Info("pathCAGenerateRoot: Performing extra PKI backend migration")
+		if err = b.initialize(ctx, &logical.InitializationRequest{}); err != nil {
+			return logical.ErrorResponse("Could not migrate, can not create root CA until migration has completed"), nil
+		}
+		b.Logger().Info("pathCAGenerateRoot: extra PKI backend migration succeeded")
+	}
+
 	// Since we're planning on updating issuers here, grab the lock so we've
 	// got a consistent view.
 	b.issuersLock.Lock()
 	defer b.issuersLock.Unlock()
-
-	var err error
-
-	if b.UseLegacyBundleCaStorage() {
-		return logical.ErrorResponse("Can not create root CA until migration has completed"), nil
-	}
 
 	sc := b.makeStorageContext(ctx, req.Storage)
 
