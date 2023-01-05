@@ -375,5 +375,13 @@ func (b *backend) invalidate(ctx context.Context, key string) {
 }
 
 func (b *backend) periodicFunc(ctx context.Context, request *logical.Request) error {
+	if b.useLegacyBundleCaStorage() {
+		b.Logger().Info("periodicFunc: Performing extra PKI backend migration")
+		if err := b.initialize(ctx, &logical.InitializationRequest{}); err != nil {
+			b.Logger().Error("periodicFunc: extra PKI backend migration failed")
+			return err
+		}
+		b.Logger().Info("periodicFunc: extra PKI backend migration succeeded")
+	}
 	return b.crlBuilder.rebuildIfForced(ctx, b, request)
 }
