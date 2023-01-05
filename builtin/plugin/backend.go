@@ -156,9 +156,13 @@ func (b *PluginBackend) startBackend(ctx context.Context, storage logical.Storag
 	b.loaded = true
 
 	// call Initialize() explicitly here.
-	return b.Backend.Initialize(ctx, &logical.InitializationRequest{
+	err = b.Backend.Initialize(ctx, &logical.InitializationRequest{
 		Storage: storage,
 	})
+	if err != nil {
+		b.Logger().Error("startBackend: backend initialize() failed, will be retried")
+	}
+	return err
 }
 
 // lazyLoad lazy-loads the backend before running a method
