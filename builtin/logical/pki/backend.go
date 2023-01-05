@@ -674,6 +674,15 @@ func (b *backend) invalidate(ctx context.Context, key string) {
 }
 
 func (b *backend) periodicFunc(ctx context.Context, request *logical.Request) error {
+	if b.UseLegacyBundleCaStorage() {
+		b.Logger().Info("periodicFunc: Performing extra PKI backend migration")
+		if err := b.initialize(ctx, &logical.InitializationRequest{}); err != nil {
+			b.Logger().Error("periodicFunc: extra PKI backend migration failed")
+			return err
+		}
+		b.Logger().Info("periodicFunc: extra PKI backend migration succeeded")
+	}
+
 	sc := b.makeStorageContext(ctx, request.Storage)
 
 	doCRL := func() error {
