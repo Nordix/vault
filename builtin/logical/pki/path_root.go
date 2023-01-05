@@ -135,7 +135,12 @@ func (b *backend) pathCAGenerateRoot(ctx context.Context, req *logical.Request, 
 	var err error
 
 	if b.UseLegacyBundleCaStorage() {
-		return logical.ErrorResponse("Can not create root CA until migration has completed"), nil
+		// Try to do migration
+		b.Logger().Info("pathCAGenerateRoot: Performing extra PKI backend migration")
+		if err = b.initialize(ctx, &logical.InitializationRequest{}); err != nil {
+			return logical.ErrorResponse("Could not migrate, can not create root CA until migration has completed"), nil
+		}
+		b.Logger().Info("pathCAGenerateRoot: extra PKI backend migration succeeded")
 	}
 
 	sc := b.makeStorageContext(ctx, req.Storage)
