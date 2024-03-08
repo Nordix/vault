@@ -1072,7 +1072,9 @@ func testConvergentEncryptionCommon(t *testing.T, ver int, keyType keysutil.KeyT
 	if err != nil {
 		t.Fatal(err)
 	}
-	require.NotNil(t, resp, "expected populated request")
+	if resp != nil {
+		t.Fatal("expected nil response")
+	}
 
 	p, err := keysutil.LoadPolicy(context.Background(), storage, path.Join("policy", "testkey"))
 	if err != nil {
@@ -1565,7 +1567,9 @@ func TestBadInput(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	require.NotNil(t, resp, "expected populated request")
+	if resp != nil {
+		t.Fatal("expected nil response")
+	}
 
 	req.Path = "decrypt/test"
 	req.Data = map[string]interface{}{
@@ -1654,7 +1658,9 @@ func TestTransit_AutoRotateKeys(t *testing.T) {
 				if err != nil {
 					t.Fatal(err)
 				}
-				require.NotNil(t, resp, "expected populated request")
+				if resp != nil {
+					t.Fatal("expected nil response")
+				}
 
 				// Write a key with an auto rotate value one day in the future
 				req = &logical.Request{
@@ -1669,7 +1675,9 @@ func TestTransit_AutoRotateKeys(t *testing.T) {
 				if err != nil {
 					t.Fatal(err)
 				}
-				require.NotNil(t, resp, "expected populated request")
+				if resp != nil {
+					t.Fatal("expected nil response")
+				}
 
 				// Run the rotation check and ensure none of the keys have rotated
 				b.checkAutoRotateAfter = time.Now()
