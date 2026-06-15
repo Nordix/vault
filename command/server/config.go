@@ -58,6 +58,8 @@ type Config struct {
 
 	EnableUnauthenticatedAccess []string `hcl:"enable_unauthenticated_access"`
 
+	UnsafeRelativePaths bool `hcl:"unsafe_relative_paths"`
+
 	CacheSize                int         `hcl:"cache_size"`
 	DisableCache             bool        `hcl:"-"`
 	DisableCacheRaw          interface{} `hcl:"disable_cache"`
@@ -525,6 +527,11 @@ func (c *Config) Merge(c2 *Config) *Config {
 	result.EnableUnauthenticatedAccess = c.EnableUnauthenticatedAccess
 	if len(c2.EnableUnauthenticatedAccess) > 0 {
 		result.EnableUnauthenticatedAccess = c2.EnableUnauthenticatedAccess
+	}
+
+	result.UnsafeRelativePaths = c.UnsafeRelativePaths
+	if c2.UnsafeRelativePaths {
+		result.UnsafeRelativePaths = c2.UnsafeRelativePaths
 	}
 
 	return result

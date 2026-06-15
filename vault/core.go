@@ -799,6 +799,8 @@ type Core struct {
 	certCountManager cert_count.CertificateCountManager
 
 	agentRegistry *AgentRegistry
+
+	unsafeRelativePaths bool
 }
 
 func (c *Core) ActiveNodeClockSkewMillis() int64 {
@@ -1005,6 +1007,8 @@ type CoreConfig struct {
 	// These aren't the actual paths to endpoints, but rather specific values that
 	// identify groups of endpoints, e.g. "rekey" refers to the sys/rekey/* endpoints.
 	EnableUnauthenticatedAccess []string
+
+	UnsafeRelativePaths bool
 }
 
 // GetServiceRegistration returns the config's ServiceRegistration, or nil if it does
@@ -1189,6 +1193,7 @@ func CreateCore(conf *CoreConfig) (*Core, error) {
 		periodicLeaderRefreshInterval:  conf.PeriodicLeaderRefreshInterval,
 		rpcLastSuccessfulHeartbeat:     new(atomic.Value),
 		reportingScanDirectory:         conf.ReportingScanDirectory,
+		unsafeRelativePaths:            conf.UnsafeRelativePaths,
 		enableUnauthRekey:              new(atomic.Bool),
 		enableUnauthGenerateRoot:       new(atomic.Bool),
 		enableUnauthDROperationToken:   new(atomic.Bool),
@@ -1690,6 +1695,10 @@ func (c *Core) handleVersionTimeStamps(ctx context.Context) error {
 		return err
 	}
 	return nil
+}
+
+func (c *Core) UnsafeRelativePathsEnabled() bool {
+	return c.unsafeRelativePaths
 }
 
 // HostnameHeaderEnabled determines whether to add the X-Vault-Hostname header

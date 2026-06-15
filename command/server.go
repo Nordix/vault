@@ -3005,6 +3005,7 @@ func createCoreConfig(c *ServerCommand, config *server.Config, backend physical.
 		ObservationSystemConfig:        config.Observations,
 		ReportingScanDirectory:         config.ReportingScanDirectory,
 		EnableUnauthenticatedAccess:    config.EnableUnauthenticatedAccess,
+		UnsafeRelativePaths:            config.UnsafeRelativePaths,
 	}
 
 	if c.flagDev {

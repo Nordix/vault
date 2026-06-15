@@ -583,7 +583,7 @@ func wrapGenericHandler(core *vault.Core, h http.Handler, props *vault.HandlerPr
 		}
 		cleanedPath := cleanPath(originalPath)
 		switch {
-		case originalPath != cleanedPath:
+		case originalPath != cleanedPath && !core.UnsafeRelativePathsEnabled():
 			respondError(nw, http.StatusBadRequest, errors.New("vault request paths must be canonical and not relative"))
 			cancelFunc()
 			return
