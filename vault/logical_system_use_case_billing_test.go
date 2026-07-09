@@ -9,7 +9,6 @@ import (
 	"time"
 
 	logicalKv "github.com/hashicorp/vault-plugin-secrets-kv"
-	logicalAws "github.com/hashicorp/vault/builtin/logical/aws"
 	logicalDatabase "github.com/hashicorp/vault/builtin/logical/database"
 	logicalSsh "github.com/hashicorp/vault/builtin/logical/ssh"
 	logicalTransit "github.com/hashicorp/vault/builtin/logical/transit"
@@ -359,7 +358,6 @@ func TestSystemBackend_BillingOverview_MetricTypeFormat(t *testing.T) {
 	c, _, root, _ := TestCoreUnsealedWithMetricsAndConfig(t, &CoreConfig{
 		LogicalBackends: map[string]logical.Factory{
 			pluginconsts.SecretEngineKV:       logicalKv.Factory,
-			pluginconsts.SecretEngineAWS:      logicalAws.Factory,
 			pluginconsts.SecretEngineDatabase: logicalDatabase.Factory,
 			pluginconsts.SecretEngineTransit:  logicalTransit.Factory,
 			pluginconsts.SecretEngineSsh:      logicalSsh.Factory,
