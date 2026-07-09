@@ -30,12 +30,10 @@ import (
 	logicalMongoAtlas "github.com/hashicorp/vault-plugin-secrets-mongodbatlas"
 	logicalLDAP "github.com/hashicorp/vault-plugin-secrets-openldap"
 	logicalTerraform "github.com/hashicorp/vault-plugin-secrets-terraform"
-	credAws "github.com/hashicorp/vault/builtin/credential/aws"
 	credGitHub "github.com/hashicorp/vault/builtin/credential/github"
 	credLdap "github.com/hashicorp/vault/builtin/credential/ldap"
 	credOkta "github.com/hashicorp/vault/builtin/credential/okta"
 	credRadius "github.com/hashicorp/vault/builtin/credential/radius"
-	logicalAws "github.com/hashicorp/vault/builtin/logical/aws"
 	logicalConsul "github.com/hashicorp/vault/builtin/logical/consul"
 	logicalNomad "github.com/hashicorp/vault/builtin/logical/nomad"
 	logicalRabbit "github.com/hashicorp/vault/builtin/logical/rabbitmq"
@@ -60,7 +58,6 @@ func newFullAddonRegistry() *registry {
 				Factory:           removedFactory,
 				DeprecationStatus: consts.Removed,
 			},
-			pluginconsts.AuthTypeAWS:        {Factory: credAws.Factory},
 			pluginconsts.AuthTypeAzure:      {Factory: credAzure.Factory},
 			pluginconsts.AuthTypeCF:         {Factory: credCF.Factory},
 			pluginconsts.AuthTypeGCP:        {Factory: credGcp.Factory},
@@ -104,7 +101,6 @@ func newFullAddonRegistry() *registry {
 				DeprecationStatus: consts.Deprecated,
 			},
 			pluginconsts.SecretEngineAlicloud: {Factory: logicalAlicloud.Factory},
-			pluginconsts.SecretEngineAWS:      {Factory: logicalAws.Factory},
 			pluginconsts.SecretEngineAzure:    {Factory: logicalAzure.Factory},
 			pluginconsts.SecretEngineCassandra: {
 				Factory:           removedFactory,
