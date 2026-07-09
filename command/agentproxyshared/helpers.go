@@ -15,7 +15,6 @@ import (
 	"github.com/hashicorp/vault/command/agentproxyshared/auth"
 	"github.com/hashicorp/vault/command/agentproxyshared/auth/alicloud"
 	"github.com/hashicorp/vault/command/agentproxyshared/auth/approle"
-	"github.com/hashicorp/vault/command/agentproxyshared/auth/aws"
 	"github.com/hashicorp/vault/command/agentproxyshared/auth/azure"
 	"github.com/hashicorp/vault/command/agentproxyshared/auth/cert"
 	"github.com/hashicorp/vault/command/agentproxyshared/auth/cf"
@@ -39,8 +38,6 @@ func GetAutoAuthMethodFromConfig(autoAuthMethodType string, authConfig *auth.Aut
 	switch autoAuthMethodType {
 	case "alicloud":
 		return alicloud.NewAliCloudAuthMethod(authConfig)
-	case "aws":
-		return aws.NewAWSAuthMethod(authConfig)
 	case "azure":
 		return azure.NewAzureAuthMethod(authConfig)
 	case "cert":
