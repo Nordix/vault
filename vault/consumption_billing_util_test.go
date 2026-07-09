@@ -19,7 +19,6 @@ import (
 	logicalLDAP "github.com/hashicorp/vault-plugin-secrets-openldap"
 	logicalTerraform "github.com/hashicorp/vault-plugin-secrets-terraform"
 	"github.com/hashicorp/vault/builtin/credential/userpass"
-	logicalAws "github.com/hashicorp/vault/builtin/logical/aws"
 	logicalConsul "github.com/hashicorp/vault/builtin/logical/consul"
 	logicalDatabase "github.com/hashicorp/vault/builtin/logical/database"
 	logicalNomad "github.com/hashicorp/vault/builtin/logical/nomad"
@@ -35,7 +34,6 @@ import (
 )
 
 var roleLogicalBackends = map[string]logical.Factory{
-	pluginconsts.SecretEngineAWS:          logicalAws.Factory,
 	pluginconsts.SecretEngineAzure:        logicalAzure.Factory,
 	pluginconsts.SecretEngineGCP:          logicalGcp.Factory,
 	pluginconsts.SecretEngineKV:           logicalKv.Factory,
