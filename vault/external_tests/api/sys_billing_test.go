@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/hashicorp/vault/api"
-	logicalAws "github.com/hashicorp/vault/builtin/logical/aws"
 	logicalDatabase "github.com/hashicorp/vault/builtin/logical/database"
 	logicalTransit "github.com/hashicorp/vault/builtin/logical/transit"
 	"github.com/hashicorp/vault/helper/pluginconsts"
@@ -27,7 +26,6 @@ func Test_BillingOverview(t *testing.T) {
 
 	coreConfig := &vault.CoreConfig{
 		LogicalBackends: map[string]logical.Factory{
-			pluginconsts.SecretEngineAWS:      logicalAws.Factory,
 			pluginconsts.SecretEngineDatabase: logicalDatabase.Factory,
 			pluginconsts.SecretEngineTransit:  logicalTransit.Factory,
 		},
@@ -118,7 +116,6 @@ func Test_BillingOverview_WithoutUpdateCounts(t *testing.T) {
 
 	coreConfig := &vault.CoreConfig{
 		LogicalBackends: map[string]logical.Factory{
-			pluginconsts.SecretEngineAWS: logicalAws.Factory,
 		},
 	}
 
