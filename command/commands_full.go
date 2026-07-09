@@ -13,7 +13,6 @@ import (
 	credGcp "github.com/hashicorp/vault-plugin-auth-gcp/plugin"
 	credKerb "github.com/hashicorp/vault-plugin-auth-kerberos"
 	credOCI "github.com/hashicorp/vault-plugin-auth-oci"
-	credAws "github.com/hashicorp/vault/builtin/credential/aws"
 	credGitHub "github.com/hashicorp/vault/builtin/credential/github"
 	credLdap "github.com/hashicorp/vault/builtin/credential/ldap"
 	credOkta "github.com/hashicorp/vault/builtin/credential/okta"
@@ -26,7 +25,6 @@ import (
 	physCockroachDB "github.com/hashicorp/vault/physical/cockroachdb"
 	physConsul "github.com/hashicorp/vault/physical/consul"
 	physCouchDB "github.com/hashicorp/vault/physical/couchdb"
-	physDynamoDB "github.com/hashicorp/vault/physical/dynamodb"
 	physEtcd "github.com/hashicorp/vault/physical/etcd"
 	physFoundationDB "github.com/hashicorp/vault/physical/foundationdb"
 	physGCS "github.com/hashicorp/vault/physical/gcs"
@@ -35,7 +33,6 @@ import (
 	physMySQL "github.com/hashicorp/vault/physical/mysql"
 	physOCI "github.com/hashicorp/vault/physical/oci"
 	physPostgreSQL "github.com/hashicorp/vault/physical/postgresql"
-	physS3 "github.com/hashicorp/vault/physical/s3"
 	physSpanner "github.com/hashicorp/vault/physical/spanner"
 	physSwift "github.com/hashicorp/vault/physical/swift"
 	physZooKeeper "github.com/hashicorp/vault/physical/zookeeper"
@@ -53,7 +50,6 @@ func newFullAddonHandlers() (map[string]physical.Factory, map[string]LoginHandle
 		"consul":                physConsul.NewConsulBackend,
 		"couchdb_transactional": physCouchDB.NewTransactionalCouchDBBackend,
 		"couchdb":               physCouchDB.NewCouchDBBackend,
-		"dynamodb":              physDynamoDB.NewDynamoDBBackend,
 		"etcd":                  physEtcd.NewEtcdBackend,
 		"file_transactional":    physFile.NewTransactionalFileBackend,
 		"file":                  physFile.NewFileBackend,
@@ -64,14 +60,12 @@ func newFullAddonHandlers() (map[string]physical.Factory, map[string]LoginHandle
 		"mysql":                 physMySQL.NewMySQLBackend,
 		"oci":                   physOCI.NewBackend,
 		"postgresql":            physPostgreSQL.NewPostgreSQLBackend,
-		"s3":                    physS3.NewS3Backend,
 		"spanner":               physSpanner.NewBackend,
 		"swift":                 physSwift.NewSwiftBackend,
 		"zookeeper":             physZooKeeper.NewZooKeeperBackend,
 	}
 	addonLoginHandlers := map[string]LoginHandler{
 		"alicloud": &credAliCloud.CLIHandler{},
-		"aws":      &credAws.CLIHandler{},
 		"cf":       &credCF.CLIHandler{},
 		"gcp":      &credGcp.CLIHandler{},
 		"github":   &credGitHub.CLIHandler{},
