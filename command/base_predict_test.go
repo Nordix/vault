@@ -348,7 +348,6 @@ func TestPredict_Plugins(t *testing.T) {
 				"ad",
 				"alicloud",
 				"approle",
-				"aws",
 				"azure",
 				"cassandra-database-plugin",
 				"cert",
