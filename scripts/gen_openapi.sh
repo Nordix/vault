@@ -52,7 +52,6 @@ echo "Mounting all builtin plugins ..."
 # Enable auth plugins
 vault auth enable "alicloud"
 vault auth enable "approle"
-vault auth enable "aws"
 vault auth enable "azure"
 vault auth enable "cert"
 vault auth enable "cf"
@@ -69,7 +68,6 @@ vault auth enable "userpass"
 
 # Enable secrets plugins
 vault secrets enable "alicloud"
-vault secrets enable "aws"
 vault secrets enable "azure"
 vault secrets enable "consul"
 vault secrets enable "database"
