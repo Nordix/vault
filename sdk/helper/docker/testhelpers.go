@@ -29,6 +29,7 @@ import (
 	"github.com/moby/moby/api/types/mount"
 	"github.com/moby/moby/api/types/network"
 	"github.com/moby/moby/client"
+	"go.uber.org/zap"
 )
 
 const DockerAPIVersion = "1.44"
@@ -204,6 +205,14 @@ var _ io.Writer = &LogConsumerWriter{}
 // 'forceLocalAddr' will force the container address returned to be in the
 // form of '127.0.0.1:1234' where 1234 is the mapped container port.
 func (d *Runner) StartNewService(ctx context.Context, addSuffix, forceLocalAddr bool, connect ServiceAdapter) (*Service, string, error) {
+	// Pull image if it doesn't exist in local registry
+	imageRef := d.GetImageRef()
+	if !d.ImageExists(ctx) {
+		if _, err := d.DockerAPI.ImagePull(ctx, imageRef, client.ImagePullOptions{}); err != nil {
+			return nil, "", fmt.Errorf("failed to pull image %q: %w", imageRef, err)
+		}
+	}
+
 	if d.RunOptions.PreDelete {
 		name := d.RunOptions.ContainerName
 		matches, err := d.DockerAPI.ContainerList(ctx, client.ContainerListOptions{
@@ -307,6 +316,36 @@ func (d *Runner) StartNewService(ctx context.Context, addSuffix, forceLocalAddr 
 		Container:   result.Container,
 		StartResult: result,
 	}, result.Container.ID, nil
+}
+
+// ImageExists returns true if the image exists in the local docker registry.
+func (d *Runner) ImageExists(ctx context.Context) bool {
+	imageTag := d.RunOptions.ImageRepo + ":" + d.RunOptions.ImageTag
+	filters := make(client.Filters).Add("reference", imageTag)
+
+	results, err := d.DockerAPI.ImageList(ctx, client.ImageListOptions{
+		Filters: filters,
+	})
+
+	if err != nil {
+		zap.L().Error("Failed to search image", zap.String("image", imageTag), zap.Error(err))
+		return false
+	}
+
+	return len(results.Items) > 0
+}
+
+// GetImageRef returns a docker image reference.
+func (d *Runner) GetImageRef() string {
+	imageRef := d.RunOptions.ImageRepo
+
+	if strings.Contains(d.RunOptions.ImageTag, "sha256") {
+		imageRef += "@" + d.RunOptions.ImageTag
+	} else {
+		imageRef += ":" + d.RunOptions.ImageTag
+	}
+
+	return imageRef
 }
 
 // createLogConsumer returns a function to consume the logs of the container with the given ID.
