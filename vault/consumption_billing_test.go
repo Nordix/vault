@@ -21,14 +21,6 @@ var secretEngineBackends = map[string]struct {
 	mount string
 	key   string
 }{
-	"AWS Dynamic Roles": {
-		mount: pluginconsts.SecretEngineAWS,
-		key:   "role/",
-	},
-	"AWS Static Roles": {
-		mount: pluginconsts.SecretEngineAWS,
-		key:   "static-roles/",
-	},
 	"Azure Dynamic Roles": {
 		mount: pluginconsts.SecretEngineAzure,
 		key:   "roles/",
@@ -172,8 +164,6 @@ func TestHandleEndOfMonthMetrics(t *testing.T) {
 	for _, month := range []time.Time{monthToDelete, oldestRetainedMonth} {
 		for _, localPathPrefix := range []string{billing.ReplicatedPrefix, billing.LocalPrefix} {
 			core.storeMaxRoleCountsLocked(context.Background(), &RoleCounts{
-				AWSDynamicRoles:      10,
-				AWSStaticRoles:       15,
 				LDAPDynamicRoles:     8,
 				GCPRolesets:          3,
 				DatabaseDynamicRoles: 5,
@@ -253,8 +243,6 @@ func TestDeleteExpiredBillingMetrics(t *testing.T) {
 	for _, month := range []time.Time{monthToDelete, oldestRetainedMonth, currentMonth} {
 		for _, pathPrefix := range []string{billing.ReplicatedPrefix, billing.LocalPrefix} {
 			core.storeMaxRoleCountsLocked(context.Background(), &RoleCounts{
-				AWSDynamicRoles:     5,
-				AWSStaticRoles:      10,
 				LDAPDynamicRoles:    3,
 				OSLocalAccountRoles: 7,
 			}, pathPrefix, month)
@@ -392,8 +380,6 @@ func TestConsumptionBillingMetricsWorkerWithCustomClock(t *testing.T) {
 	view, ok := core.GetBillingSubView()
 	require.True(t, ok)
 	roleCounts := &RoleCounts{
-		AWSDynamicRoles:            10,
-		AWSStaticRoles:             15,
 		AzureDynamicRoles:          10,
 		AzureStaticRoles:           15,
 		DatabaseDynamicRoles:       5,

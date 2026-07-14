@@ -388,7 +388,6 @@ func buildDynamicRolesMetric(counts *RoleCounts) map[string]interface{} {
 	terraformCount := 0
 
 	if counts != nil {
-		awsCount = counts.AWSDynamicRoles
 		azureCount = counts.AzureDynamicRoles
 		databaseCount = counts.DatabaseDynamicRoles
 		gcpCount = counts.GCPRolesets
@@ -445,7 +444,6 @@ func buildAutoRotatedRolesMetric(counts *RoleCounts) map[string]interface{} {
 	osLocalAccountCount := 0
 
 	if counts != nil {
-		awsCount = counts.AWSStaticRoles
 		azureCount = counts.AzureStaticRoles
 		databaseCount = counts.DatabaseStaticRoles
 		gcpStaticCount = counts.GCPStaticAccounts

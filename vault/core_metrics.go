@@ -845,8 +845,6 @@ func (c *Core) configuredPoliciesGaugeCollector(ctx context.Context) ([]metricsu
 }
 
 type RoleCounts struct {
-	AWSDynamicRoles            int `json:"aws_dynamic_roles"`
-	AWSStaticRoles             int `json:"aws_static_roles"`
 	AzureDynamicRoles          int `json:"azure_dynamic_roles"`
 	AzureStaticRoles           int `json:"azure_static_roles"`
 	DatabaseDynamicRoles       int `json:"database_dynamic_roles"`
@@ -952,12 +950,6 @@ func (c *Core) getRoleAndManagedKeyCountsInternal(includeLocal bool, includeRepl
 		}
 
 		switch pluginName {
-		case pluginconsts.SecretEngineAWS:
-			dynamicRoles := apiList(entry, "roles")
-			roles.AWSDynamicRoles += len(dynamicRoles)
-			staticRoles := apiList(entry, "static-roles")
-			roles.AWSStaticRoles += len(staticRoles)
-
 		case pluginconsts.SecretEngineAzure:
 			dynamicRoles := apiList(entry, "roles")
 			roles.AzureDynamicRoles += len(dynamicRoles)

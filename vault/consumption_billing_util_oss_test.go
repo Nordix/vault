@@ -16,8 +16,6 @@ import (
 // In OSS, AzureStaticRoles should be 0 since they're only supported in Enterprise.
 func verifyExpectedRoleCounts(t *testing.T, actual *RoleCounts, baseCount int) {
 	expected := &RoleCounts{
-		AWSDynamicRoles:            baseCount,
-		AWSStaticRoles:             baseCount,
 		AzureDynamicRoles:          baseCount,
 		AzureStaticRoles:           0, // OSS: Azure Static roles not supported
 		DatabaseDynamicRoles:       baseCount,

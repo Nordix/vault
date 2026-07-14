@@ -69,8 +69,6 @@ func TestStoreAndGetMaxRoleCounts(t *testing.T) {
 			localPathPrefix: billing.LocalPrefix,
 			monthOffset:     0,
 			roleCounts: &RoleCounts{
-				AWSDynamicRoles:  10,
-				AWSStaticRoles:   15,
 				LDAPDynamicRoles: 8,
 			},
 		},
@@ -89,8 +87,6 @@ func TestStoreAndGetMaxRoleCounts(t *testing.T) {
 			localPathPrefix: billing.ReplicatedPrefix,
 			monthOffset:     0,
 			roleCounts: &RoleCounts{
-				AWSDynamicRoles:  12,
-				AWSStaticRoles:   18,
 				LDAPDynamicRoles: 6,
 				GCPRolesets:      4,
 			},
@@ -100,8 +96,6 @@ func TestStoreAndGetMaxRoleCounts(t *testing.T) {
 			localPathPrefix: billing.LocalPrefix,
 			monthOffset:     -1,
 			roleCounts: &RoleCounts{
-				AWSDynamicRoles:  8,
-				AWSStaticRoles:   10,
 				LDAPDynamicRoles: 5,
 				GCPRolesets:      2,
 			},
@@ -118,8 +112,6 @@ func TestStoreAndGetMaxRoleCounts(t *testing.T) {
 			retrievedCounts, err := core.GetStoredHWMRoleCounts(context.Background(), tc.localPathPrefix, month)
 			require.NoError(t, err)
 
-			require.Equal(t, tc.roleCounts.AWSDynamicRoles, retrievedCounts.AWSDynamicRoles)
-			require.Equal(t, tc.roleCounts.AWSStaticRoles, retrievedCounts.AWSStaticRoles)
 			require.Equal(t, tc.roleCounts.AzureDynamicRoles, retrievedCounts.AzureDynamicRoles)
 			require.Equal(t, tc.roleCounts.AzureStaticRoles, retrievedCounts.AzureStaticRoles)
 			require.Equal(t, tc.roleCounts.GCPStaticAccounts, retrievedCounts.GCPStaticAccounts)
@@ -165,16 +157,6 @@ func TestHWMRoleCounts(t *testing.T) {
 		key          string
 		numberOfKeys int
 	}{
-		"AWS Dynamic Roles": {
-			mount:        pluginconsts.SecretEngineAWS,
-			key:          "role/",
-			numberOfKeys: 5,
-		},
-		"AWS Static Roles": {
-			mount:        pluginconsts.SecretEngineAWS,
-			key:          "static-roles/",
-			numberOfKeys: 5,
-		},
 		"Azure Dynamic Roles": {
 			mount:        pluginconsts.SecretEngineAzure,
 			key:          "roles/",
