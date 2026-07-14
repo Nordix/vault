@@ -7,7 +7,6 @@ package pluginconsts
 const (
 	AuthTypeAliCloud          = "alicloud"
 	AuthTypeAppId             = "app-id"
-	AuthTypeAWS               = "aws"
 	AuthTypeAzure             = "azure"
 	AuthTypeCF                = "cf"
 	AuthTypeGCP               = "gcp"
@@ -28,7 +27,6 @@ const (
 	AuthTypeJWT               = "jwt"
 	SecretEngineAD            = "ad"
 	SecretEngineAlicloud      = "alicloud"
-	SecretEngineAWS           = "aws"
 	SecretEngineAzure         = "azure"
 	SecretEngineCassandra     = "cassandra"
 	SecretEngineConsul        = "consul"

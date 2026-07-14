@@ -73,7 +73,6 @@ func NewMockBuiltinRegistry() *mockBuiltinRegistry {
 				PluginType:        consts.PluginTypeCredential,
 				DeprecationStatus: consts.PendingRemoval,
 			},
-			"aws":    {PluginType: consts.PluginTypeCredential},
 			"consul": {PluginType: consts.PluginTypeSecrets},
 		},
 	}
@@ -107,13 +106,6 @@ func (m *mockBuiltinRegistry) Get(name string, pluginType consts.PluginType) (fu
 	switch name {
 	case "approle", "pending-removal-test-plugin":
 		return toFunc(approle.Factory), true
-	case "aws":
-		return toFunc(func(ctx context.Context, config *logical.BackendConfig) (logical.Backend, error) {
-			b := new(framework.Backend)
-			b.Setup(ctx, config)
-			b.BackendType = logical.TypeCredential
-			return b, nil
-		}), true
 	case "postgresql-database-plugin":
 		return toFunc(func(ctx context.Context, config *logical.BackendConfig) (logical.Backend, error) {
 			b := new(framework.Backend)
